@@ -108,3 +108,6 @@ local.settings.json
 
 # Extensions vscode
 .vscode
+
+# ignore
+/ignore

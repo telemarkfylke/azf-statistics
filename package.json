@@ -8,12 +8,11 @@
     "test:verbose": "jest --verbose"
   },
   "dependencies": {
-    "@types/jest": "^29.5.8",
-    "@vtfk/azure-blob-client": "^0.1.0",
     "@vtfk/logger": "^6.0.1",
-    "mongodb": "^4.13.0"
+    "mongodb": "^6.3.0"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "azure-functions-core-tools": "^4.x",
     "jest": "^29.7.0",
     "standard": "^17.1.0"
