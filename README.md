@@ -174,8 +174,8 @@ Returns
 ]
 ```
 
-Example for getting all properties (*)
-`GET https://{statsurl}/api/Stats/Acos%20skjema?select=*`
+Example for getting all properties ('select=all') (cannot use '*' due to azure WAF)
+`GET https://{statsurl}/api/Stats/Acos%20skjema?select=all`
 
 Returns
 ```json

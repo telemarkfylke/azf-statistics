@@ -83,7 +83,7 @@ module.exports = async function (context, req) {
         type: 1
       }
       if (select) {
-        if (select.trim() === '*') {
+        if (select.trim() === 'all') { // Cannot use * due to azure waf (web application firewall)
           projection = {}
         } else {
           projection = select.split(',').reduce((acc, prop) => {
