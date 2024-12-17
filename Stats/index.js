@@ -60,15 +60,40 @@ module.exports = async function (context, req) {
       }
       logger('info', [`System "${system}" found in collections - fetchin all documents for system`], context)
       const collection = db.collection(system)
-      // Chekck query params - if count return only the count of documents, if filter - apply filter to the query
-      const { filter, count } = req.query
+
+      // Check query params - if count return only the count of documents, if filter - apply filter to the query
+      const { filter, count, select } = req.query
 
       let queryFilter = {}
       if (filter) {
         queryFilter = parseQueryFilter(filter) // welcome to the rabbit hole
       }
-      const stats = count === 'true' ? await collection.countDocuments(queryFilter) : await collection.find(queryFilter).toArray()
-      logger('info', [`Successfully fetched all documents for system "${system}" - Length: ${stats.length || stats}`, `count: ${count === 'true'}`], context)
+      // Default projection
+      let projection = {
+        _id: 1,
+        system: 1,
+        engine: 1,
+        createdTimestamp: 1,
+        county: 1,
+        company: 1,
+        department: 1,
+        description: 1,
+        projectId: 1,
+        externalId: 1,
+        type: 1
+      }
+      if (select) {
+        if (select.trim() === '*') {
+          projection = {}
+        } else {
+          projection = select.split(',').reduce((acc, prop) => {
+            acc[prop.trim()] = 1
+            return acc
+          }, {})
+        }
+      }
+      const stats = count === 'true' ? await collection.countDocuments(queryFilter) : await collection.find(queryFilter).project(projection).toArray()
+      logger('info', [`Successfully fetched all documents for system "${system}" - Length: ${stats.length || stats}`, `count: ${count === 'true'}`, `select: ${select || 'default'}`], context)
       return httpResponse(200, stats)
     } catch (error) {
       logger('error', ['Error fetching stats for system', error.toString()], context)

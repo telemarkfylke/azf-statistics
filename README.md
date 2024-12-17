@@ -93,8 +93,7 @@ Example return value
 		"description": "Sender til elevmappe",
 		"projectId": "ingen prosjekttilknytning",
 		"externalId": "1287555",
-		"type": "Søknad om tilrettelegging på fag, svenne eller kompetanseprøve",
-		"documentNumber": "24/00001-12"
+		"type": "Søknad om tilrettelegging på fag, svenne eller kompetanseprøve"
 	},
 	{
 		"_id": "655f511e62f1958a50d4eec6",
@@ -107,9 +106,7 @@ Example return value
 		"description": "Arkivering av henvendelse til mobbeombud. Skal opprettes en ny sak pr skjema",
 		"projectId": "ingen prosjekttilknytning",
 		"externalId": "1287567",
-		"type": "Henvendelse til mobbeombud",
-		"documentNumber": "25/00098-3",
-		"skole": "Hedrum barneskole"
+		"type": "Henvendelse til mobbeombud"
 	}
 ]
 ```
@@ -131,7 +128,6 @@ Example response
 Supported logical operators:
 - and
 - or
-- not
 - nor
 
 Supported comparison operators:
@@ -148,11 +144,73 @@ Supported comparison operators:
 Comparisons must be on the format <property> <operator> <value> 
 
 Examples
-`GET https://{statsurl}/api/Stats/Acos%20skjema?filter=createdTimestamp gt 2024-01-01 and createdTimestamp lt 2025-01-01`
-`GET https://{statsurl}/api/Stats/Acos%20skjema?filter=createdTimestamp gt 2024-01-01 and createdTimestamp lt 2025-01-01 and (type eq 'type 1' or type ne type2)`
-`GET https://{statsurl}/api/Stats/Acos%20skjema?filter=createdTimestamp gt 2024-01-01 and createdTimestamp lt 2025-01-01 and (type eq 'type 1' or type ne type2)&count=true` can be combined with query param "count"
+- `GET https://{statsurl}/api/Stats/Acos%20skjema?filter=createdTimestamp gt 2024-01-01 and createdTimestamp lt 2025-01-01`
+- `GET https://{statsurl}/api/Stats/Acos%20skjema?filter=createdTimestamp gt 2024-01-01 and createdTimestamp lt 2025-01-01 and (type eq 'type 1' or type ne type2)`
+- `GET https://{statsurl}/api/Stats/Acos%20skjema?filter=createdTimestamp gt 2024-01-01 and createdTimestamp lt 2025-01-01 and (type eq 'type 1' or type ne type2)&count=true` can be combined with query param "count"
 
 The filter is parsed by the horrific function in [parse-query.js](./lib/parse-query.js)
+
+#### select
+?select=property1,property2 only returns the selected properties
+
+if omitted, uses default select (in backend): `select=_id,system,engine,createdTimestamp,county,company,department,description,projectId,externalId,type`
+
+Example
+`GET https://{statsurl}/api/Stats/Acos%20skjema?select=createdTimestamp,type`
+
+Returns
+```json
+[
+	{
+		"_id": "655f398962f1958a50d4eec5",
+		"createdTimestamp": "2023-11-23T11:37:45.025Z",
+		"type": "Søknad om tilrettelegging på fag, svenne eller kompetanseprøve"
+	},
+	{
+		"_id": "655f511e62f1958a50d4eec6",
+		"createdTimestamp": "2023-11-23T13:18:22.648Z",
+		"type": "Henvendelse til mobbeombud"
+	}
+]
+```
+
+Example for getting all properties (*)
+`GET https://{statsurl}/api/Stats/Acos%20skjema?select=*`
+
+Returns
+```json
+[
+  {
+		"_id": "655f398962f1958a50d4eec5",
+		"system": "Acos skjema",
+		"engine": "azf-acos-interact 1.9.1",
+		"createdTimestamp": "2023-11-23T11:37:45.025Z",
+		"county": "VFK",
+		"company": "Opplæring",
+		"department": "EKSAMEN",
+		"description": "Sender til elevmappe",
+		"projectId": "ingen prosjekttilknytning",
+		"externalId": "1287555",
+		"type": "Søknad om tilrettelegging på fag, svenne eller kompetanseprøve",
+		"documentNumber": "24/00001-12" // Additional property is also returned
+	},
+	{
+		"_id": "655f511e62f1958a50d4eec6",
+		"system": "Acos skjema",
+		"engine": "azf-acos-interact 1.9.1",
+		"createdTimestamp": "2023-11-23T13:18:22.648Z",
+		"county": "VFK",
+		"company": "HRMU",
+		"department": "Mestring og utvikling",
+		"description": "Arkivering av henvendelse til mobbeombud. Skal opprettes en ny sak pr skjema",
+		"projectId": "ingen prosjekttilknytning",
+		"externalId": "1287567",
+		"type": "Henvendelse til mobbeombud",
+		"documentNumber": "25/00098-3", // Additional property is also returned
+		"skole": "Tullball barneskole" // Additional property is also returned
+	}
+]
+```
 
 # Development
 
