@@ -181,14 +181,14 @@ describe('ParseQueryFilter throws error when', () => {
   test('using empty filter', () => {
     const filter = ''
     const shouldThrow = () => parseQueryFilter(filter)
-    expect(shouldThrow).toThrow('Filter must contain at least one statement or one subfilter')
+    expect(shouldThrow).toThrow('Filter must contain at least one statement or one sub filter')
   })
-  test('using empty subfilter', () => {
+  test('using empty sub filter', () => {
     const filter = 'name eq gunnar and'
     const shouldThrow = () => parseQueryFilter(filter)
     expect(shouldThrow).toThrow('Values with whitespace must be enclosed in single quotes')
   })
-  test('using empty nested subfilter', () => {
+  test('using empty nested sub filter', () => {
     const filter = 'name eq gunnar and (hobby eq pizza or)'
     const shouldThrow = () => parseQueryFilter(filter)
     expect(shouldThrow).toThrow('Values with whitespace must be enclosed in single quotes')

@@ -17,7 +17,7 @@ module.exports = async function (context, req) {
     const { system } = req.params
 
     if (system) {
-      logger('info', ['System is present in params, overrinding system in statistics data (body'], context)
+      logger('info', ['System is present in params, overriding system in statistics data (body'], context)
       statsData.system = system
     }
 
@@ -58,7 +58,7 @@ module.exports = async function (context, req) {
         logger('error', [`System "${system}" not found in collections`], context)
         return httpResponse(404, `System "${system}" not found`)
       }
-      logger('info', [`System "${system}" found in collections - fetchin all documents for system`], context)
+      logger('info', [`System "${system}" found in collections - fetching all documents for system`], context)
       const collection = db.collection(system)
 
       // Check query params - if count return only the count of documents, if filter - apply filter to the query
