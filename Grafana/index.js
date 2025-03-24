@@ -5,9 +5,8 @@ const validation = require('../lib/grafana/validate-grafana-request')
 
 module.exports = async function (context, req) {
   const { system } = req.params
-  const { start, end } = req.query
 
-  const { result, message } = validation(req.query, context)
+  const { result, message, start, end } = validation(req.query, context)
   if (!result) {
     return httpResponse(400, message)
   }
