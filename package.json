@@ -13,7 +13,6 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
-    "azure-functions-core-tools": "^4.x",
     "jest": "^29.7.0",
     "standard": "^17.1.0"
   },
